@@ -1,0 +1,38 @@
+---
+- name: Instalar y configurar Apache en puerto 9999
+  hosts: webserver
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Instalar Apache2
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Habilitar módulo rewrite (opcional)
+      apache2_module:
+        name: rewrite
+        state: present
+      notify: reiniciar apache
+
+    - name: Cambiar puerto de escucha a 9999
+      lineinfile:
+        path: /etc/apache2/ports.conf
+        regexp: '^Listen [0-9]+'
+        line: 'Listen 9999'
+      notify: reiniciar apache
+
+    - name: Cambiar puerto en VirtualHost
+      lineinfile:
+        path: /etc/apache2/sites-available/000-default.conf
+        regexp: '^<VirtualHost \*:[0-9]+>'
+        line: '<VirtualHost *:9999>'
+      notify: reiniciar apache
+
+  handlers:
+    - name: reiniciar apache
+      service:
+        name: apache2
+        state: restarted

@@ -1,0 +1,23 @@
+---
+- name: Configurar IPv6 en Loopback33
+  hosts: router
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - name: Crear interface Loopback33 y asignar IPv6
+      ios_config:
+        parents: "interface Loopback33"
+        lines:
+          - "description Configurada por Ansible"
+          - "ipv6 address 3001:ABCD:ABCD:1::1/128"
+          - "ipv6 address FE80::1 link-local"
+        before:
+          - "interface Loopback33"
+        after:
+          - "no shutdown"
+      register: resultado
+
+    - name: Mostrar resultado de la configuración
+      debug:
+        var: resultado

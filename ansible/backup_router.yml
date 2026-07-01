@@ -1,0 +1,19 @@
+---
+- name: Backup del running-config del router
+  hosts: router
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - name: Obtener running-config
+      ios_command:
+        commands:
+          - "show running-config"
+        timeout: 30
+      register: running_config
+
+    - name: Guardar backup en archivo local
+      copy:
+        content: "{{ running_config.stdout[0] }}"
+        dest: "./backups/backup_router_{{ lookup('pipe', 'date +%Y%m%d_%H%M%S') }}.txt"
+      delegate_to: localhost
