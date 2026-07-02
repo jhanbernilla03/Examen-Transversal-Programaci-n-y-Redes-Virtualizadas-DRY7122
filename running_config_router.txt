@@ -1,0 +1,205 @@
+Building configuration...
+
+Current configuration : 4367 bytes
+!
+! Last configuration change at 09:10:19 UTC Wed Jul 1 2026 by cisco
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console virtual
+!
+hostname CSR1kv
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+ip domain name etw.netacad.com
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-990999335
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-990999335
+ revocation-check none
+ rsakeypair TP-self-signed-990999335
+!
+!
+crypto pki certificate chain TP-self-signed-990999335
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 39393039 39393333 35301E17 0D323630 37303130 37343833 
+  325A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3939 30393939 
+  33333530 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 B6BC5954 3D7F7B7E E4182173 3DFA124D 2EA65D8B A425E932 048B4F16 
+  988573D9 D5F08843 390C4833 614EC534 EFE91EE0 91FF6349 E1DB5D72 F6914011 
+  90AA7DE1 BC2DFE20 DD051943 6D46D900 30983252 26564C9B 294CBB6B E16C2EF4 
+  C9E78D6E 9BC4CC1F 2E7DED20 869A394C 479A8F35 AB4B90A6 0546139E D2909EF0 
+  4FC73807 B58462E6 D750F050 88870303 B9320EBB 97ACF4E9 4F76D390 1C2FA043 
+  6E8E4176 8A00ABFD 0D818F7B 37374BE3 CD1304A5 27E75EB0 7EDEC791 5053493E 
+  A7118129 DBED4919 0F0B1183 D4928638 5D82D683 118EF745 594070B3 777B2AEC 
+  F1743261 A47EA90E 271A3ADE 545233DA 04D76088 30133BA5 C4A3CD34 177457E1 
+  492EE063 02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 
+  0603551D 23041830 168014CF DB8B5E50 4223A328 57EDF86C CA60D75F A191B630 
+  1D060355 1D0E0416 0414CFDB 8B5E5042 23A32857 EDF86CCA 60D75FA1 91B6300D 
+  06092A86 4886F70D 01010505 00038201 010012A6 85DF1004 E1E2E9D3 69A9C5DC 
+  FD7E62B7 A37245DD B29CFDD5 E1669FC6 E9B8EE69 EC91863D EB57193D 56631948 
+  8A276101 97B93EA8 ABDCDC4B 5DB62B79 AE3C7B7B 7259032C 2001821E CFABBD72 
+  80C4C147 E6AEB910 3A117676 1E226DBF FF909B6C E58F2961 3F05FF71 70ECC21D 
+  13FC9DBB 0FEE9810 D69B9629 524040CB DB8F5947 1314DDBC 027F1363 172873C0 
+  A33617C8 B84B6EC7 041A9A88 FBD563EE ECA41CA5 8EC1F42F 53A6910F C453002A 
+  93ACFCFC 161D3148 C3168E5A 76F9AED2 83CB54ED 9116098D 49812A53 2EF46741 
+  217D91C5 687AFB8D A5F9DDAC 596405E5 B0E0D0FA EC01C015 035EEA23 57994C4C 
+  F3EF785F 83F35DA1 CC719229 F32662F0 8495
+  	quit
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9PXNPS3SQ4A
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+netconf-yang
+!
+restconf
+!
+username cisco privilege 15 password 0 cisco123!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback33
+ description Configurada por Ansible
+ no ip address
+ ipv6 address FE80::1 link-local
+ ipv6 address 3001:ABCD:ABCD:1::1/128
+!
+interface GigabitEthernet1
+ description VBox
+ ip address dhcp
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+!
+router eigrp EIGRP_LAB
+ !
+ address-family ipv4 unicast autonomous-system 100
+  !
+  topology base
+  exit-af-topology
+  network 10.0.0.0
+  network 192.168.56.0
+  eigrp router-id 1.1.1.1
+ exit-address-family
+!
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+banner motd ^C
+*                                           *
+**                                         **
+***                                       ***
+***  Cisco Networking Academy             ***
+***   Emerging Technologies Workshop:     ***
+***    Model Driven Programmability       ***
+***                                       ***
+***  This software is provided for        ***
+***   Educational Purposes                ***
+***    Only in Networking Academies       ***
+***                                       ***
+**                                         **
+*                                           *
+^C
+!
+line con 0
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end
